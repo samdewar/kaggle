@@ -1,1 +1,368 @@
-{"metadata":{"kernelspec":{"language":"python","display_name":"Python 3","name":"python3"},"language_info":{"name":"python","version":"3.11.13","mimetype":"text/x-python","codemirror_mode":{"name":"ipython","version":3},"pygments_lexer":"ipython3","nbconvert_exporter":"python","file_extension":".py"},"kaggle":{"accelerator":"none","dataSources":[{"sourceId":34377,"databundleVersionId":3220602,"isSourceIdPinned":false,"sourceType":"competition"},{"sourceId":622417,"sourceType":"modelInstanceVersion","isSourceIdPinned":false,"modelInstanceId":468204,"modelId":484032},{"sourceId":634032,"sourceType":"modelInstanceVersion","isSourceIdPinned":false,"modelInstanceId":468213,"modelId":484041}],"dockerImageVersionId":31153,"isInternetEnabled":false,"language":"python","sourceType":"notebook","isGpuEnabled":false}},"nbformat_minor":4,"nbformat":4,"cells":[{"cell_type":"code","source":"import pandas as pd\n\na = pd.read_csv('/kaggle/input/nn/keras/default/2/ensemble.csv').rename(columns={'Transported': 'transported_nn'})\nb = pd.read_csv('/kaggle/input/tree/keras/default/1/submission.csv').rename(columns={'Transported': 'transported_tree'})\n\n# If id is the index column in files, make sure it's a column:\n# a = a.reset_index(); b = b.reset_index()\n\ndf = pd.merge(a, b, on='PassengerId', how='inner')  # or how='outer' / 'left' as needed\n\n# Optionally keep only id and the two transported columns\ndf = df[['PassengerId', 'transported_nn', 'transported_tree']]\n\nprint(df.head())\n####\n","metadata":{"trusted":true,"execution":{"iopub.status.busy":"2025-11-08T12:42:39.173293Z","iopub.execute_input":"2025-11-08T12:42:39.173588Z","iopub.status.idle":"2025-11-08T12:42:41.413322Z","shell.execute_reply.started":"2025-11-08T12:42:39.173549Z","shell.execute_reply":"2025-11-08T12:42:41.412270Z"}},"outputs":[{"name":"stdout","text":"Empty DataFrame\nColumns: [PassengerId, transported_nn, transported_tree]\nIndex: []\n","output_type":"stream"}],"execution_count":1},{"cell_type":"code","source":"\ndf.to_csv('test.csv')","metadata":{"trusted":true,"execution":{"iopub.status.busy":"2025-11-08T12:42:41.414999Z","iopub.execute_input":"2025-11-08T12:42:41.415273Z","iopub.status.idle":"2025-11-08T12:42:41.427893Z","shell.execute_reply.started":"2025-11-08T12:42:41.415250Z","shell.execute_reply":"2025-11-08T12:42:41.426546Z"}},"outputs":[],"execution_count":2},{"cell_type":"code","source":"df","metadata":{"trusted":true,"execution":{"iopub.status.busy":"2025-11-08T12:42:41.428885Z","iopub.execute_input":"2025-11-08T12:42:41.429224Z","iopub.status.idle":"2025-11-08T12:42:41.460528Z","shell.execute_reply.started":"2025-11-08T12:42:41.429193Z","shell.execute_reply":"2025-11-08T12:42:41.459525Z"}},"outputs":[{"execution_count":3,"output_type":"execute_result","data":{"text/plain":"Empty DataFrame\nColumns: [PassengerId, transported_nn, transported_tree]\nIndex: []","text/html":"<div>\n<style scoped>\n    .dataframe tbody tr th:only-of-type {\n        vertical-align: middle;\n    }\n\n    .dataframe tbody tr th {\n        vertical-align: top;\n    }\n\n    .dataframe thead th {\n        text-align: right;\n    }\n</style>\n<table border=\"1\" class=\"dataframe\">\n  <thead>\n    <tr style=\"text-align: right;\">\n      <th></th>\n      <th>PassengerId</th>\n      <th>transported_nn</th>\n      <th>transported_tree</th>\n    </tr>\n  </thead>\n  <tbody>\n  </tbody>\n</table>\n</div>"},"metadata":{}}],"execution_count":3},{"cell_type":"raw","source":"","metadata":{}}]}
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "id": "5c9a8d54",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-11-08T13:17:25.685055Z",
+     "iopub.status.busy": "2025-11-08T13:17:25.684722Z",
+     "iopub.status.idle": "2025-11-08T13:17:28.079986Z",
+     "shell.execute_reply": "2025-11-08T13:17:28.078479Z"
+    },
+    "papermill": {
+     "duration": 2.402451,
+     "end_time": "2025-11-08T13:17:28.081928",
+     "exception": false,
+     "start_time": "2025-11-08T13:17:25.679477",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "  PassengerId  transported_nn  transported_tree\n",
+      "0     0001_01           False              True\n",
+      "1     0002_01            True             False\n",
+      "2     0003_01           False             False\n",
+      "3     0003_02           False             False\n",
+      "4     0004_01           False             False\n"
+     ]
+    }
+   ],
+   "source": [
+    "import pandas as pd\n",
+    "\n",
+    "a = pd.read_csv('/kaggle/input/nn/keras/default/2/ensemble.csv').rename(columns={'Transported': 'transported_nn'})\n",
+    "b = pd.read_csv('/kaggle/input/tree/keras/default/3/ensemble.csv').rename(columns={'Transported': 'transported_tree'})\n",
+    "\n",
+    "# If id is the index column in files, make sure it's a column:\n",
+    "# a = a.reset_index(); b = b.reset_index()\n",
+    "\n",
+    "df = pd.merge(a, b, on='PassengerId', how='inner')  # or how='outer' / 'left' as needed\n",
+    "\n",
+    "# Optionally keep only id and the two transported columns\n",
+    "df = df[['PassengerId', 'transported_nn', 'transported_tree']]\n",
+    "\n",
+    "print(df.head())\n",
+    "####\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "id": "615e424a",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-11-08T13:17:28.088234Z",
+     "iopub.status.busy": "2025-11-08T13:17:28.087888Z",
+     "iopub.status.idle": "2025-11-08T13:17:28.113428Z",
+     "shell.execute_reply": "2025-11-08T13:17:28.111914Z"
+    },
+    "papermill": {
+     "duration": 0.030964,
+     "end_time": "2025-11-08T13:17:28.115392",
+     "exception": false,
+     "start_time": "2025-11-08T13:17:28.084428",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [],
+   "source": [
+    "\n",
+    "df.to_csv('test.csv')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "id": "38004616",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-11-08T13:17:28.121310Z",
+     "iopub.status.busy": "2025-11-08T13:17:28.120947Z",
+     "iopub.status.idle": "2025-11-08T13:17:28.143852Z",
+     "shell.execute_reply": "2025-11-08T13:17:28.142788Z"
+    },
+    "papermill": {
+     "duration": 0.028348,
+     "end_time": "2025-11-08T13:17:28.146045",
+     "exception": false,
+     "start_time": "2025-11-08T13:17:28.117697",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>PassengerId</th>\n",
+       "      <th>transported_nn</th>\n",
+       "      <th>transported_tree</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>0001_01</td>\n",
+       "      <td>False</td>\n",
+       "      <td>True</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>0002_01</td>\n",
+       "      <td>True</td>\n",
+       "      <td>False</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>0003_01</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>0003_02</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>0004_01</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>...</th>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>8688</th>\n",
+       "      <td>9276_01</td>\n",
+       "      <td>True</td>\n",
+       "      <td>False</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>8689</th>\n",
+       "      <td>9278_01</td>\n",
+       "      <td>True</td>\n",
+       "      <td>True</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>8690</th>\n",
+       "      <td>9279_01</td>\n",
+       "      <td>True</td>\n",
+       "      <td>True</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>8691</th>\n",
+       "      <td>9280_01</td>\n",
+       "      <td>False</td>\n",
+       "      <td>False</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>8692</th>\n",
+       "      <td>9280_02</td>\n",
+       "      <td>True</td>\n",
+       "      <td>True</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "<p>8693 rows × 3 columns</p>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "     PassengerId  transported_nn  transported_tree\n",
+       "0        0001_01           False              True\n",
+       "1        0002_01            True             False\n",
+       "2        0003_01           False             False\n",
+       "3        0003_02           False             False\n",
+       "4        0004_01           False             False\n",
+       "...          ...             ...               ...\n",
+       "8688     9276_01            True             False\n",
+       "8689     9278_01            True              True\n",
+       "8690     9279_01            True              True\n",
+       "8691     9280_01           False             False\n",
+       "8692     9280_02            True              True\n",
+       "\n",
+       "[8693 rows x 3 columns]"
+      ]
+     },
+     "execution_count": 3,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df"
+   ]
+  },
+  {
+   "cell_type": "raw",
+   "id": "96fbca2e",
+   "metadata": {
+    "papermill": {
+     "duration": 0.002194,
+     "end_time": "2025-11-08T13:17:28.151222",
+     "exception": false,
+     "start_time": "2025-11-08T13:17:28.149028",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "id": "beea4d02",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-11-08T13:17:28.157097Z",
+     "iopub.status.busy": "2025-11-08T13:17:28.156791Z",
+     "iopub.status.idle": "2025-11-08T13:17:28.166983Z",
+     "shell.execute_reply": "2025-11-08T13:17:28.165483Z"
+    },
+    "papermill": {
+     "duration": 0.015028,
+     "end_time": "2025-11-08T13:17:28.168638",
+     "exception": false,
+     "start_time": "2025-11-08T13:17:28.153610",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "     PassengerId  transported_tree\n",
+      "0        0001_01              True\n",
+      "1        0002_01             False\n",
+      "2        0003_01             False\n",
+      "3        0003_02             False\n",
+      "4        0004_01             False\n",
+      "...          ...               ...\n",
+      "8688     9276_01             False\n",
+      "8689     9278_01              True\n",
+      "8690     9279_01              True\n",
+      "8691     9280_01             False\n",
+      "8692     9280_02              True\n",
+      "\n",
+      "[8693 rows x 2 columns]\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(b)\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "0f981383",
+   "metadata": {
+    "papermill": {
+     "duration": 0.002052,
+     "end_time": "2025-11-08T13:17:28.173057",
+     "exception": false,
+     "start_time": "2025-11-08T13:17:28.171005",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kaggle": {
+   "accelerator": "none",
+   "dataSources": [
+    {
+     "databundleVersionId": 3220602,
+     "isSourceIdPinned": false,
+     "sourceId": 34377,
+     "sourceType": "competition"
+    },
+    {
+     "isSourceIdPinned": false,
+     "modelId": 484041,
+     "modelInstanceId": 468213,
+     "sourceId": 634032,
+     "sourceType": "modelInstanceVersion"
+    },
+    {
+     "isSourceIdPinned": false,
+     "modelId": 484032,
+     "modelInstanceId": 468204,
+     "sourceId": 634079,
+     "sourceType": "modelInstanceVersion"
+    }
+   ],
+   "dockerImageVersionId": 31153,
+   "isGpuEnabled": false,
+   "isInternetEnabled": false,
+   "language": "python",
+   "sourceType": "notebook"
+  },
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.11.13"
+  },
+  "papermill": {
+   "default_parameters": {},
+   "duration": 9.225636,
+   "end_time": "2025-11-08T13:17:28.798264",
+   "environment_variables": {},
+   "exception": null,
+   "input_path": "__notebook__.ipynb",
+   "output_path": "__notebook__.ipynb",
+   "parameters": {},
+   "start_time": "2025-11-08T13:17:19.572628",
+   "version": "2.6.0"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}
